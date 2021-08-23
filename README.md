@@ -3,4 +3,4 @@ A poll for Kasetsart University
 
 ## Project Documents
 - [Project Wiki](../../wiki)
-- [Vision Statement](../../wiki/Vision Statement)
+- [Vision Statement](../../wiki/Vision%20Statement)
