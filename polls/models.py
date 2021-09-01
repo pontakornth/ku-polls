@@ -14,8 +14,8 @@ class Question(models.Model):
 
     def was_published_recently(self):
         """Return true is the question is published less than 1 day from now."""
-
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
 
 class Choice(models.Model):
