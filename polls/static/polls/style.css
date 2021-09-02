@@ -28,6 +28,10 @@ body {
     background: var(--light-green);
 }
 
+.error {
+    color: #FF0000;
+}
+
 li a {
     color: var(--green);
 }
