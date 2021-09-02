@@ -1,3 +1,7 @@
+:root {
+    --green: #236D64;
+    --light-green: #85888C;
+}
 body {
    font-family: "IBM Plex Sans Thai Looped", sans-serif;
    display: flex;
@@ -11,7 +15,7 @@ body {
 }
 
 .button {
-    background: #236D64;
+    background: var(--green);
     color: white;
     padding: .33em 1em;
     font-family: "IBM Plex Sans Thai Looped", sans-serif;
@@ -21,9 +25,9 @@ body {
 }
 
 .button:hover {
-    background: #85888C;
+    background: var(--light-green);
 }
 
 li a {
-    color: green;
+    color: var(--green);
 }
