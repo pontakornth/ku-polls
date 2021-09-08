@@ -142,6 +142,11 @@ class QuestionIndexViewTest(TestCase):
             [question_1, question_2]
         )
 
+    def test_redirection(self):
+        """/ should redirect to /polls path"""
+        response = self.client.get('/')
+        self.assertRedirects(response, reverse('polls:index'))
+
 
 class QuestionDetailViewTest(TestCase):
     def test_future_question(self):
