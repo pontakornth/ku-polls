@@ -51,6 +51,50 @@ class QuestionModelTest(TestCase):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
+    def test_is_published_with_published_question(self):
+        """
+        is_published() returns True when the current time passes the publication date.
+        """
+        time = timezone.now() - datetime.timedelta(days=2)
+        old_question = Question(pub_date=time)
+        self.assertIs(old_question.is_published(), True )
+
+    def test_is_published_with_future_question(self):
+        """
+        is_published() returns False when the current time does not pass the publication date.
+        """
+        time = timezone.now() + datetime.timedelta(hours=23)
+        future_question = Question(pub_date=time)
+        self.assertIs(future_question.is_published(), False)
+
+    def test_can_vote_with_question_after_end_date_question(self):
+        """
+        can_vote() returns False when the current time passes the end date.
+        """
+        pub_date = timezone.now() - datetime.timedelta(days=30)
+        end_date = timezone.now() - datetime.timedelta(days=1)
+        ended_question  = Question(pub_date=pub_date, end_date=end_date)
+        self.assertIs(ended_question.can_vote(), False)
+
+    def test_can_vote_with_question_during_pub_date_and_end_date(self):
+        """
+        can_vote() returns True when the current time is in the voting period.
+        """
+        pub_date = timezone.now()
+        end_date = timezone.now() + datetime.timedelta(days=1)
+        available_question = Question(pub_date=pub_date, end_date=end_date)
+        self.assertIs(available_question.can_vote(), True)
+
+    def test_can_vote_with_future_question(self):
+        """
+        can_vote() returns False when the question is in the future.
+        """
+        pub_date = timezone.now() + datetime.timedelta(days=1)
+        end_date = timezone.now() + datetime.timedelta(days=10)
+        future_question = Question(pub_date=pub_date, end_date=end_date)
+        self.assertIs(future_question.can_vote(), False)
+
+
 
 class QuestionIndexViewTest(TestCase):
     def test_no_question(self):
