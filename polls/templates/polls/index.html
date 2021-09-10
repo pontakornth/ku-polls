@@ -1,6 +1,9 @@
 {% extends 'polls/base_generic.html' %}
 {% block content %}
 <h1>Polls</h1>
+{% for message in messages %}
+    <p>{{ message }}</p>
+{% endfor %}
 {% if latest_question_list %}
 <ul>
    {% for question in latest_question_list %}

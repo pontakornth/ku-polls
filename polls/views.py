@@ -1,5 +1,8 @@
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.utils import timezone
+from django.contrib import messages
 from .models import Question, Choice
 from django.views import generic
 
@@ -20,6 +23,13 @@ class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
 
+    def get(self, request, *args, **kwargs):
+        try:
+            return super(DetailView, self).get(request, *args, **kwargs)
+        except Http404:
+            messages.add_message(request, messages.ERROR, "Question not found")
+            return redirect(reverse('polls:index'))
+
     def get_queryset(self):
         """Exclude unpublished questions"""
         return Question.objects.filter(pub_date__lte=timezone.now())
@@ -29,6 +39,13 @@ class ResultsView(generic.DetailView):
     """Question result page"""
     model = Question
     template_name = 'polls/results.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            return super(ResultsView, self).get(request, *args, **kwargs)
+        except Http404:
+            messages.add_message(request, messages.ERROR, "Question not found")
+            return redirect(reverse('polls:index'))
 
     def get_queryset(self):
         """Exclude unpublished questions"""
