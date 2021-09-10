@@ -162,9 +162,9 @@ class QuestionDetailViewTest(TestCase):
         future_question = create_question(question_text="Future question", days=30)
         url = reverse('polls:detail', args=(future_question.id,))
         response = self.client.get(url, follow=True)
-        self.assertRedirects(response, '/polls')
+        self.assertRedirects(response, reverse('polls:index'))
         messages = response.context['messages']
-        self.assertEqual(str(messages[0]), "Question not found")
+        self.assertContains(response, "Question not found")
 
     def test_past_question(self):
         """It should display past question."""
@@ -176,14 +176,15 @@ class QuestionDetailViewTest(TestCase):
 
 class QuestionResultViewTest(TestCase):
     """It should have same behavior with the detail view."""
+
     def test_future_question(self):
         """It should redirect to the homepage with an error message."""
         future_question = create_question(question_text="Future question", days=30)
         url = reverse('polls:detail', args=(future_question.id,))
         response = self.client.get(url, follow=True)
-        self.assertRedirects(response, '/polls')
+        self.assertRedirects(response, reverse('polls:index'))
         messages = response.context['messages']
-        self.assertEqual(str(messages[0]), "Question not found")
+        self.assertContains(response, "Question not found")
 
     def test_past_question(self):
         """It should display past question."""
