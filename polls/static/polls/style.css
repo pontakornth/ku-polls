@@ -1,6 +1,7 @@
 :root {
     --green: #236D64;
     --light-green: #85888C;
+    --light-green-2: #DFE0E1;
 }
 body {
    font-family: "IBM Plex Sans Thai Looped", sans-serif;
@@ -43,4 +44,26 @@ li a {
 
 .message {
     font-weight: bold;
+}
+
+.result-table {
+    border: 2px solid var(--green);
+}
+
+.result-table thead {
+    background: var(--green);
+    font-weight: bold;
+    color: #fff;
+}
+
+.result-table th, .result-table td {
+    padding: 1rem;
+}
+
+.result-table td:last-child {
+    text-align: right;
+}
+
+.result-table tbody tr:nth-child(2n) {
+    background: var(--light-green-2);
 }
