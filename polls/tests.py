@@ -12,12 +12,12 @@ def create_question(question_text, days):
     `days` days after it was created.
     Args:
         question_text (str): Question text
-        days (int): Day difference from now
+        days (int): Day difference from now for publication date
     Returns:
         Question: Created question with specified question and pub_date
     """
     time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(question_text=question_text, pub_date=time)
+    return Question.objects.create(question_text=question_text, pub_date=time, end_date=time)
 
 
 # Create your tests here.
@@ -39,7 +39,7 @@ class QuestionModelTest(TestCase):
         is older than 1 day.
         """
         time = timezone.now() - datetime.timedelta(days=1, seconds=1)
-        old_question  = Question(pub_date=time)
+        old_question = Question(pub_date=time)
         self.assertIs(old_question.was_published_recently(), False)
 
     def test_was_publised_recently_with_recent_question(self):
@@ -57,7 +57,7 @@ class QuestionModelTest(TestCase):
         """
         time = timezone.now() - datetime.timedelta(days=2)
         old_question = Question(pub_date=time)
-        self.assertIs(old_question.is_published(), True )
+        self.assertIs(old_question.is_published(), True)
 
     def test_is_published_with_future_question(self):
         """
@@ -73,7 +73,7 @@ class QuestionModelTest(TestCase):
         """
         pub_date = timezone.now() - datetime.timedelta(days=30)
         end_date = timezone.now() - datetime.timedelta(days=1)
-        ended_question  = Question(pub_date=pub_date, end_date=end_date)
+        ended_question = Question(pub_date=pub_date, end_date=end_date)
         self.assertIs(ended_question.can_vote(), False)
 
     def test_can_vote_with_question_during_pub_date_and_end_date(self):
@@ -93,7 +93,6 @@ class QuestionModelTest(TestCase):
         end_date = timezone.now() + datetime.timedelta(days=10)
         future_question = Question(pub_date=pub_date, end_date=end_date)
         self.assertIs(future_question.can_vote(), False)
-
 
 
 class QuestionIndexViewTest(TestCase):
@@ -146,6 +145,15 @@ class QuestionIndexViewTest(TestCase):
         """/ should redirect to /polls path"""
         response = self.client.get('/')
         self.assertRedirects(response, reverse('polls:index'))
+
+    def test_more_than_five_questions(self):
+        """The index page should display all available questions."""
+        question_list = [create_question(question_text=f"Question {i}", days=-i) for i in range(10)]
+        response = self.client.get(reverse('polls:index'))
+        self.assertQuerysetEqual(
+            response.context['latest_question_list'],
+            question_list
+        )
 
 
 class QuestionDetailViewTest(TestCase):
