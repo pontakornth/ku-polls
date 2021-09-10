@@ -35,3 +35,12 @@ body {
 li a {
     color: var(--green);
 }
+
+.messages {
+    border: 2px dotted var(--light-green);
+    padding: .5rem;
+}
+
+.message {
+    font-weight: bold;
+}
