@@ -180,7 +180,7 @@ class QuestionResultViewTest(TestCase):
     def test_future_question(self):
         """It should redirect to the homepage with an error message."""
         future_question = create_question(question_text="Future question", days=30)
-        url = reverse('polls:detail', args=(future_question.id,))
+        url = reverse('polls:results', args=(future_question.id,))
         response = self.client.get(url, follow=True)
         self.assertRedirects(response, reverse('polls:index'))
         messages = response.context['messages']
