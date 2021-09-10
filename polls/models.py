@@ -24,6 +24,16 @@ class Question(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
+    def is_published(self):
+        """Returns true if the question is published"""
+        now = timezone.now()
+        return now >= self.pub_date
+
+    def can_vote(self):
+        """Returns true if the question in the voting duration"""
+        now = timezone.now()
+        return self.pub_date <= now <= self.end_date
+
 
 class Choice(models.Model):
     """Choice assigned to each question"""
