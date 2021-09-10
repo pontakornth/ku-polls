@@ -143,8 +143,8 @@ class QuestionIndexViewTest(TestCase):
 
     def test_redirection(self):
         """/ should redirect to /polls path"""
-        response = self.client.get('/')
-        self.assertRedirects(response, reverse('polls:index'))
+        response = self.client.get('/', follow=True)
+        self.assertRedirects(response, reverse('polls:index'), status_code=302)
 
     def test_more_than_five_questions(self):
         """The index page should display all available questions."""
