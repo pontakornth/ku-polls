@@ -15,7 +15,7 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields = ['question_text']
     fieldsets = (
         (None,   {'fields': ['question_text']}),
-        ('Date Information', {'fields': ['pub_date']})
+        ('Date Information', {'fields': ['pub_date', 'end_date']})
     )
     inlines = [ChoiceInline]
 
