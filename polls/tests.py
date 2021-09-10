@@ -158,11 +158,32 @@ class QuestionIndexViewTest(TestCase):
 
 class QuestionDetailViewTest(TestCase):
     def test_future_question(self):
-        """It should return 404 error for question_with future pub_date."""
+        """It should redirect to the homepage with an error message."""
         future_question = create_question(question_text="Future question", days=30)
         url = reverse('polls:detail', args=(future_question.id,))
+        response = self.client.get(url, follow=True)
+        self.assertRedirects(response, '/polls')
+        messages = response.context['messages']
+        self.assertEqual(str(messages[0]), "Question not found")
+
+    def test_past_question(self):
+        """It should display past question."""
+        past_question = create_question(question_text="Past question", days=-1)
+        url = reverse('polls:detail', args=(past_question.id,))
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 404)
+        self.assertContains(response, past_question.question_text)
+
+
+class QuestionResultViewTest(TestCase):
+    """It should have same behavior with the detail view."""
+    def test_future_question(self):
+        """It should redirect to the homepage with an error message."""
+        future_question = create_question(question_text="Future question", days=30)
+        url = reverse('polls:detail', args=(future_question.id,))
+        response = self.client.get(url, follow=True)
+        self.assertRedirects(response, '/polls')
+        messages = response.context['messages']
+        self.assertEqual(str(messages[0]), "Question not found")
 
     def test_past_question(self):
         """It should display past question."""
