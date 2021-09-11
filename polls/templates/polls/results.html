@@ -22,6 +22,9 @@
         </tbody>
     </table>
 
-   <a href="{% url 'polls:detail' question.id %}">Vote again</a>
+    <nav class="navigation">
+        <a href="{% url 'polls:index' %}">Back to polls list</a>
+        <a href="{% url 'polls:detail' question.id %}">Vote again</a>
+    </nav>
 
 {% endblock %}
