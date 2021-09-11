@@ -42,7 +42,7 @@ class QuestionModelTest(TestCase):
         old_question = Question(pub_date=time)
         self.assertIs(old_question.was_published_recently(), False)
 
-    def test_was_publised_recently_with_recent_question(self):
+    def test_was_published_recently_with_recent_question(self):
         """
         was_published_recently() return True for question whose pub_date
         is within 1 day.
