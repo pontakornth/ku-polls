@@ -22,7 +22,17 @@ body {
     font-family: "IBM Plex Sans Thai Looped", sans-serif;
     border: none;
     margin-top: .5rem;
+    text-decoration: none;
     cursor: pointer;
+}
+
+.button-groups {
+    padding: .5rem 0;
+}
+
+.button-groups .button {
+    margin-right: .5rem;
+    margin-left: 0;
 }
 
 .button:hover {
