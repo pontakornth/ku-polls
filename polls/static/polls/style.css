@@ -67,3 +67,13 @@ li a {
 .result-table tbody tr:nth-child(2n) {
     background: var(--light-green-2);
 }
+
+.navigation {
+    display: flex;
+    padding: 1rem 0;
+    flex-flow: row wrap;
+}
+
+.navigation a {
+    margin-right: 1rem;
+}
