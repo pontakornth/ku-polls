@@ -47,6 +47,20 @@ li a {
     color: #f00;
 }
 
+.question-list {
+    list-style: none;
+    padding: 0;
+    border: 1px solid var(--green);
+}
+
+.question {
+    padding: .5rem;
+}
+
+.question:nth-child(2n) {
+    background: var(--light-green-2);
+}
+
 .result-table {
     border: 2px solid var(--green);
 }
