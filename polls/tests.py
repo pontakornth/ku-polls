@@ -169,9 +169,21 @@ class QuestionDetailViewTest(TestCase):
     def test_past_question(self):
         """It should display past question."""
         past_question = create_question(question_text="Past question", days=-1)
+        past_question.end_date = timezone.now() + datetime.timedelta(days=30)
+        past_question.save()
         url = reverse('polls:detail', args=(past_question.id,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
+
+    def test_ended_question(self):
+        """It should not allow user to vote and redirect to the result."""
+        ended_question = create_question(question_text="Ended question", days=-30)
+        ended_question.end_date = ended_question.end_date - timezone.timedelta(days=-30)
+        ended_question.save()
+        url = reverse('polls:detail', args=(ended_question.id,))
+        redirected_url = reverse('polls:results', args=(ended_question.id,))
+        response = self.client.get(url, follow=True)
+        self.assertRedirects(response, redirected_url)
 
 
 class QuestionResultViewTest(TestCase):
@@ -189,6 +201,6 @@ class QuestionResultViewTest(TestCase):
     def test_past_question(self):
         """It should display past question."""
         past_question = create_question(question_text="Past question", days=-1)
-        url = reverse('polls:detail', args=(past_question.id,))
+        url = reverse('polls:results', args=(past_question.id,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
