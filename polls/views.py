@@ -25,7 +25,11 @@ class DetailView(generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         try:
-            return super(DetailView, self).get(request, *args, **kwargs)
+            self.object = self.get_object()
+            if not self.object.can_vote():
+                return redirect(reverse('polls:results', args=(self.object.id,)))
+            context = self.get_context_data(object=self.object)
+            return self.render_to_response(context)
         except Http404:
             messages.add_message(request, messages.ERROR, "Question not found")
             return redirect(reverse('polls:index'))
