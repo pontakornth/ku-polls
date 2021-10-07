@@ -8,3 +8,6 @@ omit =
     polls/tests.py
     polls/migrations/*
     venv/**/*
+    # Omit configuration
+    mysite/asgi.py
+    mysite/wsgi.py
