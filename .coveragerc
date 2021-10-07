@@ -11,3 +11,4 @@ omit =
     # Omit configuration
     mysite/asgi.py
     mysite/wsgi.py
+    manage.py
