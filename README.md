@@ -1,6 +1,6 @@
 # KU Polls
 [![Build Status](https://app.travis-ci.com/pontakornth/ku-polls.svg?branch=main)](https://app.travis-ci.com/pontakornth/ku-polls)
-
+[![codecov](https://codecov.io/gh/pontakornth/ku-polls/branch/main/graph/badge.svg?token=23YURPKGXX)](https://codecov.io/gh/pontakornth/ku-polls)
 
 A poll for Kasetsart University.
 
