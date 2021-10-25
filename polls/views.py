@@ -1,4 +1,5 @@
 """Views for poll application."""
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
@@ -74,11 +75,13 @@ class ResultsView(generic.DetailView):
         return Question.objects.filter(pub_date__lte=timezone.now())
 
 
+@login_required
 def vote(request, question_id: int):
     """Vote on a question."""
     question = get_object_or_404(Question, pk=question_id)
     try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+        choice_id = request.POST['choice']
+        selected_choice = question.choice_set.get(pk=choice_id)
     except (KeyError, Choice.DoesNotExist):
         messages.add_message(request, messages.ERROR, "You didn't select a choice.")
         return render(request, 'polls/detail.html', {
