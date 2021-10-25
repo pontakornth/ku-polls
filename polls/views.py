@@ -5,7 +5,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib import messages
-from .models import Question, Choice
+from django.contrib.auth.models import User
+from .models import Question, Choice, Vote
 from django.views import generic
 
 
@@ -88,9 +89,23 @@ def vote(request, question_id: int):
             'question': question,
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
+        # selected_choice.votes += 1
+        user = request.user
+        vote = get_vote_for_user(question, user)
+        if not vote:
+            Vote.objects.create(choice=selected_choice, voter=user)
+        else:
+            vote.choice = selected_choice
+        vote.save()
 
         # Always redirect after POST request to prevent multiple
         # requests if user presses back button.
         return redirect('polls:results', question.id)
+
+
+def get_vote_for_user(question: Question, user: User):
+    """Return vote of the user from the question."""
+    try:
+        return Vote.objects.filter(voter=user).filter(choice__question=question)[0]
+    except Vote.DoesNotExist:
+        return None

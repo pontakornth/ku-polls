@@ -1,12 +1,14 @@
-"""Authentication test"""
+"""Test for authentication."""
 import django.test
 from django.contrib.auth.models import User
 from django.urls import reverse
 
 
 class UserAuthTest(django.test.TestCase):
+    """Test user authentication."""
 
     def setUp(self):
+        """Set up user account for tests."""
         super().setUp()
         self.username = "testuser"
         self.password = "Fat-Chance!"
