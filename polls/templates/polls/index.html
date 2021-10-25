@@ -1,6 +1,12 @@
 {% extends 'polls/base_generic.html' %}
 {% block content %}
 <h1>Polls</h1>
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}</p>
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+
 {% if messages %}
     <div class="messages">
         {% for message in messages %}
