@@ -84,7 +84,7 @@ def vote(request, question_id: int):
         choice_id = request.POST['choice']
         selected_choice = question.choice_set.get(pk=choice_id)
     except (KeyError, Choice.DoesNotExist):
-        messages.add_message(request, messages.ERROR, "You didn't select a choice.")
+        messages.error(request, "You didn't select a choice.")
         return render(request, 'polls/detail.html', {
             'question': question,
         })
@@ -93,7 +93,7 @@ def vote(request, question_id: int):
         user = request.user
         vote = get_vote_for_user(question, user)
         if not vote:
-            Vote.objects.create(choice=selected_choice, voter=user)
+            vote = Vote.objects.create(choice=selected_choice, voter=user)
         else:
             vote.choice = selected_choice
         vote.save()
@@ -106,6 +106,6 @@ def vote(request, question_id: int):
 def get_vote_for_user(question: Question, user: User):
     """Return vote of the user from the question."""
     try:
-        return Vote.objects.filter(voter=user).filter(choice__question=question)[0]
+        return Vote.objects.get(voter=user, choice__question=question)
     except Vote.DoesNotExist:
         return None
