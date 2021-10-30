@@ -8,6 +8,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Question, Choice, Vote
 from django.views import generic
+import logging
+
+logger = logging.getLogger("polls")
 
 
 # Create your views here.
@@ -97,6 +100,7 @@ def vote(request, question_id: int):
         else:
             vote.choice = selected_choice
         vote.save()
+        logger.info(f"{user} voted in {question}.")
 
         # Always redirect after POST request to prevent multiple
         # requests if user presses back button.
