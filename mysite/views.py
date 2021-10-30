@@ -26,10 +26,10 @@ def get_ip_address(request: HttpRequest) -> str:
 
 
 @receiver(user_login_failed)
-def log_failed_login(sender, request, user, **kwargs):
+def log_failed_login(sender, credentials, request, **kwargs):
     """Log failed login attempt."""
     user_ip = get_ip_address(request)
-    logger.warning(f"Invalid login for {user.username} from {user_ip}")
+    logger.warning(f"Invalid login for {credentials['username']} from {user_ip}")
 
 
 @receiver(user_logged_in)
