@@ -53,6 +53,7 @@ MIDDLEWARE = [
 ]
 
 LOGIN_REDIRECT_URL = "/polls/"
+LOGOUT_REDIRECT_URL = "/polls/"
 
 ROOT_URLCONF = 'mysite.urls'
 
