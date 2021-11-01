@@ -11,3 +11,25 @@ It is based on [Django Tutorial Project](https://docs.djangoproject.com/en/3.2/i
 - [Project Wiki](../../wiki)
 - [Vision Statement](../../wiki/Vision%20Statement)
 - [Requirements](../../wiki/Requirements)
+
+
+## Demo Data
+You can use following account to login
+<table>
+    <thead>
+        <tr>
+          <th>Username</th>
+          <th>Password</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>demo1</td>
+            <td>KotlinIsTheBest123</td>
+        </tr>
+        <tr>
+            <td>demo2</td>
+            <td>RustIsTheBest333</td>
+        </tr>
+    </tbody>
+</table>
