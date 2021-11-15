@@ -83,6 +83,9 @@ class ResultsView(generic.DetailView):
 def vote(request, question_id: int):
     """Vote on a question."""
     question = get_object_or_404(Question, pk=question_id)
+    if not question.can_vote():
+        messages.error(request, "The question is ended. Voting is not allowed.")
+        return redirect('polls:index')
     try:
         choice_id = request.POST['choice']
         selected_choice = question.choice_set.get(pk=choice_id)

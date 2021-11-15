@@ -78,3 +78,13 @@ class VotingSystemTest(TestCase):
         response = self.client.post(self.vote_url, data={"choice": 123})
         # HTML Escape is required as some characters are escaped.
         self.assertContains(response, escape("You didn't select a choice."))
+
+    def test_voting_after_poll_ended(self):
+        """Voting after the poll is ended is not allowed."""
+        self.login()
+        self.test_question.end_date -= datetime.timedelta(days=360)
+        self.test_question.save()
+        response = self.client.post(self.vote_url, data={"choice": self.test_choice_1.id}, follow=False)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.test_choice_1.votes, 0)
+        self.assertEqual(response.url, reverse('polls:index'))
